@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Find the Breakfast!</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fff8e1;
+            color: #333;
+            text-align: center;
+            padding: 40px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: #ff9800;
+        }
+
+        .door-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .door {
+            width: 120px;
+            height: 200px;
+            background-color: #795548;
+            border: 5px solid #4e342e;
+            border-radius: 10px;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.3s, background-color 0.3s;
+            overflow: hidden;
+        }
+
+        .door:hover {
+            transform: scale(1.05);
+            background-color: #8d6e63;
+        }
+
+        .door-label {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .door.revealed {
+            background-color: #ffeb3b;
+            border-color: #fbc02d;
+            color: #000;
+        }
+
+        .door img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .door.revealed img {
+            display: block;
+        }
+
+        #message {
+            margin-top: 30px;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            background-color: #ffa000;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #fb8c00;
+        }
+    </style>
+</head>
+<body>
+    <h1>Find the Breakfast!</h1>
+    <div class="door-container" id="doors"></div>
+    <div id="message"></div>
+    <button onclick="setupGame()">Play Again</button>
+
+    <script>
+        const breakfastImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Belgian_waffle_with_butter.jpg/320px-Belgian_waffle_with_butter.jpg";
+        const dudImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/No_sign.svg/240px-No_sign.svg.png";
+
+        function setupGame() {
+            const doorsContainer = document.getElementById("doors");
+            doorsContainer.innerHTML = "";
+            document.getElementById("message").textContent = "";
+
+            const winningDoor = Math.floor(Math.random() * 3); // 0, 1, or 2
+
+            for (let i = 0; i < 3; i++) {
+                const door = document.createElement("div");
+                door.className = "door";
+                door.dataset.winner = i === winningDoor ? "true" : "false";
+                door.onclick = function () { revealDoor(door); };
+
+                const label = document.createElement("div");
+                label.className = "door-label";
+                label.textContent = "Door " + (i + 1);
+
+                const img = document.createElement("img");
+                img.src = i === winningDoor ? breakfastImg : dudImg;
+                img.alt = i === winningDoor ? "Yum! Breakfast!" : "Nope!";
+
+                door.appendChild(label);
+                door.appendChild(img);
+                doorsContainer.appendChild(door);
+            }
+        }
+
+        function revealDoor(door) {
+            if (door.classList.contains("revealed")) return;
+
+            door.classList.add("revealed");
+            const isWinner = door.dataset.winner === "true";
+
+            document.getElementById("message").textContent = isWinner 
+                ? "🎉 You found the breakfast! 🧇" 
+                : "❌ Not this one! Try again?";
+
+            // Disable clicking on other doors
+            document.querySelectorAll(".door").forEach(d => d.onclick = null);
+        }
+
+        // Start game on load
+        window.onload = setupGame;
+    </script>
+</body>
+</html>

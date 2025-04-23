@@ -1,0 +1,42 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #e1bc6c;
+    color: #333;
+}
+
+/* Header */
+h1 {
+    background-color: #ffc107;
+    color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* Subheader */
+h2 {
+    color: #555;
+    margin-top: 30px;
+}
+
+/* Centered ordered list */
+.centeredList {
+    list-style-position: inside;
+    padding-left: 0;
+}
+
+/* Style nested list */
+.centeredList ul {
+    list-style-type: circle;
+    margin-top: 0px;
+    padding-left: 0;
+}
+
+/* Link */
+a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
